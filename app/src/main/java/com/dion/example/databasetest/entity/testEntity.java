@@ -43,6 +43,14 @@ public class testEntity {
         testEntity.geboortejaar = geboortejaar;
     }
 
+    public boolean comparePw(String password) {
+        if (pw.equals(password)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public long getId() {
         return id;
     }

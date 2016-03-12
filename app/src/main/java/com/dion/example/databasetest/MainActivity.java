@@ -1,5 +1,6 @@
 package com.dion.example.databasetest;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dion.example.databasetest.database.Test2DAO;
 import com.dion.example.databasetest.entity.testEntity;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         db = new Test2DAO(this);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -60,18 +62,51 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     public void findPw(View view) {
         EditText username = (EditText) findViewById(R.id.editText);
         String usernamevalue = String.valueOf(username.getText());
 
-        TextView output = (TextView) findViewById(R.id.editText2);
-        String outputText = "";
+        EditText password = (EditText) findViewById(R.id.editText2);
+        String passwordValue = String.valueOf(password.getText());
 
-        testEntity test1 = null;
+        testEntity test = null;
+        String notification = null;
+        test = db.login(usernamevalue, passwordValue);
 
-        db.findpw(usernamevalue);
-        outputText = String.format("pw = %s \nvoornaam = %s \ngeboortedatum = %s", test1.getPw(), test1.getVoornaam(), test1.getGeboortejaar());
-        output.setText(outputText);
+        if (test != null) {
+            boolean isPwValid = test.comparePw(passwordValue);
+
+            if (isPwValid) {
+                //notification = "ingelogd";
+                Intent intent = new Intent(this, Dashboard.class);
+                intent.putExtra("voornaam", test.getVoornaam());
+                intent.putExtra("username", test.getUsrnam());
+                startActivity(intent);
+            } else {
+                notification = "opnieuw";
+            }
+        } else {
+            notification = "opnieuw";
+        }
+        Toast.makeText(this, notification, Toast.LENGTH_LONG).show();
+      /*
+        if (passwordValue == String.valueOf(test.getPw())){
+            Intent intent = new Intent(this, Dashboard.class);
+            startActivity(intent);
+        }else{
+            notification= " probeer opnieuw";
+            Toast.makeText(this,notification,Toast.LENGTH_LONG).show();
+        }
+
+*/
+
+
+        //   db.findpw(usernamevalue);
+
+
+        //  outputText = String.format("pw = %s \nvoornaam = %s \ngeboortedatum = %s ", test.getPw(), test.getVoornaam(), test.getGeboortejaar());
+        //   output.setText(outputText);
 
     }
 
