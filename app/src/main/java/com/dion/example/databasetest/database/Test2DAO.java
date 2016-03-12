@@ -20,12 +20,14 @@ public class Test2DAO extends SQLiteOpenHelper{
     public static final String TEST_ID = "id";
     public static final String TEST_USERNAME = "usrnam";
     public static final String TEST_PASSWORD="pw";
+    public static final String TEST_VOORNAAM = "voornaam";
 
-    private static final String SQL_PB_TABLE_QUERY = "create table voorbeeld(id INTEGER PRIMARY KEY,usrnam TEXT,pw TEXT);";
+    private static final String SQL_PB_TABLE_QUERY = "create table voorbeeld(id INTEGER PRIMARY KEY,usrnam TEXT,pw TEXT, voornaam TEXT);";
 
 
     public Test2DAO(Context context) {
         super(context, DB_TEST, null, TEST_VERSION);
+        insertDefault();
     }
 
     @Override
@@ -34,7 +36,7 @@ public class Test2DAO extends SQLiteOpenHelper{
      //   insertData(db, "eci", "bye");
      //  insertData(db, "fire", "hello");
      //   insertData(db, "wind", "stay");
-        insertDefault();
+
     }
 
     @Override
@@ -55,22 +57,25 @@ public class Test2DAO extends SQLiteOpenHelper{
         ContentValues testValues = new ContentValues();
         testValues.put(TEST_USERNAME, "ice");
         testValues.put(TEST_PASSWORD, "bye");
+        testValues.put(TEST_VOORNAAM, "dion");
         insertValue(TEST_TABLE, testValues);
 
         ContentValues testValues2 = new ContentValues();
         testValues2.put(TEST_USERNAME, "fire");
         testValues2.put(TEST_PASSWORD, "hello");
+        testValues2.put(TEST_VOORNAAM, "Laks");
         insertValue(TEST_TABLE, testValues2);
 
         ContentValues testValues3 = new ContentValues();
         testValues3.put(TEST_USERNAME, "wind");
         testValues3.put(TEST_PASSWORD, "stay");
+        testValues3.put(TEST_VOORNAAM, "Reks");
         insertValue(TEST_TABLE, testValues3);
     }
 
     public  long insertValue( String tableName, ContentValues test){
         SQLiteDatabase db = getWritableDatabase();
-        long rowId = db.insert(tableName, null, test);
+        long rowId = db.insert(TEST_TABLE, null, test);
         db.close();
         //return the row ID of the newly inserted row, or -1 if an error occurred
         return rowId;
@@ -83,7 +88,7 @@ public class Test2DAO extends SQLiteOpenHelper{
         String sql = String.format("select * from %s where %s = '%s';", TEST_TABLE, TEST_USERNAME ,usrnam);
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor.moveToNext()){
-            test = new testEntity(cursor.getLong(0),cursor.getString(1), cursor.getString(2));
+            test = new testEntity(cursor.getLong(0),cursor.getString(1), cursor.getString(2), cursor.getString(3));
         }
         db.close();
         return test;

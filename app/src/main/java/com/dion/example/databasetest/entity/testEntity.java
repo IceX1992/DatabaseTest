@@ -8,11 +8,13 @@ public class testEntity {
     private long id;
     private String usrnam;
     private static String pw;
+    private String voornaam;
 
-    public testEntity(long id, String usrnam, String pw){
+    public testEntity(long id, String usrnam, String pw, String voornaam){
         this.id = id;
         this.usrnam = usrnam;
         this.pw = pw;
+        this.voornaam = voornaam;
     }
 
     public long getId() {
@@ -37,5 +39,13 @@ public class testEntity {
 
     public static void setPw(String pw) {
         testEntity.pw = pw;
+    }
+
+    public String getVoornaam() {
+        return voornaam;
+    }
+
+    public void setVoornaam(String voornaam) {
+        this.voornaam = voornaam;
     }
 }
