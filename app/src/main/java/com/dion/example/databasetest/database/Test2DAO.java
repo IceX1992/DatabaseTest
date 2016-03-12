@@ -13,16 +13,15 @@ import com.dion.example.databasetest.entity.testEntity;
  */
 public class Test2DAO extends SQLiteOpenHelper{
 
-    private static final String DB_TEST = "test.db";
-    private static final int TEST_VERSION = 1;
-
     public static final String TEST_TABLE = "voorbeeld";
     public static final String TEST_ID = "id";
     public static final String TEST_USERNAME = "usrnam";
     public static final String TEST_PASSWORD="pw";
     public static final String TEST_VOORNAAM = "voornaam";
-
-    private static final String SQL_PB_TABLE_QUERY = "create table voorbeeld(id INTEGER PRIMARY KEY,usrnam TEXT,pw TEXT, voornaam TEXT);";
+    public static final String TEST_GEBOORTE = "geboortejaar";
+    private static final String DB_TEST = "test.db";
+    private static final int TEST_VERSION = 1;
+    private static final String SQL_PB_TABLE_QUERY = "create table voorbeeld(id INTEGER PRIMARY KEY,usrnam TEXT,pw TEXT, voornaam TEXT,geboortejaar TEXT);";
 
 
     public Test2DAO(Context context) {
@@ -58,18 +57,21 @@ public class Test2DAO extends SQLiteOpenHelper{
         testValues.put(TEST_USERNAME, "ice");
         testValues.put(TEST_PASSWORD, "bye");
         testValues.put(TEST_VOORNAAM, "dion");
+        testValues.put(TEST_GEBOORTE, "03-12-1992");
         insertValue(TEST_TABLE, testValues);
 
         ContentValues testValues2 = new ContentValues();
         testValues2.put(TEST_USERNAME, "fire");
         testValues2.put(TEST_PASSWORD, "hello");
         testValues2.put(TEST_VOORNAAM, "Laks");
+        testValues2.put(TEST_GEBOORTE, "20-02-1995");
         insertValue(TEST_TABLE, testValues2);
 
         ContentValues testValues3 = new ContentValues();
         testValues3.put(TEST_USERNAME, "wind");
         testValues3.put(TEST_PASSWORD, "stay");
         testValues3.put(TEST_VOORNAAM, "Reks");
+        testValues3.put(TEST_GEBOORTE, "13-01-1995");
         insertValue(TEST_TABLE, testValues3);
     }
 
@@ -88,7 +90,7 @@ public class Test2DAO extends SQLiteOpenHelper{
         String sql = String.format("select * from %s where %s = '%s';", TEST_TABLE, TEST_USERNAME ,usrnam);
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor.moveToNext()){
-            test = new testEntity(cursor.getLong(0),cursor.getString(1), cursor.getString(2), cursor.getString(3));
+            test = new testEntity(cursor.getLong(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
         }
         db.close();
         return test;

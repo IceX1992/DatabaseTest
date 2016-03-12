@@ -1,15 +1,15 @@
 package com.dion.example.databasetest;
 
-import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.dion.example.databasetest.database.Test2DAO;
 import com.dion.example.databasetest.entity.testEntity;
@@ -64,13 +64,13 @@ public class MainActivity extends AppCompatActivity {
         EditText username = (EditText) findViewById(R.id.editText);
         String usernamevalue = String.valueOf(username.getText());
 
-        EditText output = (EditText) findViewById(R.id.editText2);
+        TextView output = (TextView) findViewById(R.id.editText2);
         String outputText = "";
 
         testEntity test1 = null;
 
         db.findpw(usernamevalue);
-        outputText = String.format(test1.getPw());
+        outputText = String.format("pw = %s \nvoornaam = %s \ngeboortedatum = %s", test1.getPw(), test1.getVoornaam(), test1.getGeboortejaar());
         output.setText(outputText);
 
     }
